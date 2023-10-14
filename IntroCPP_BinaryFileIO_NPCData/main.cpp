@@ -21,6 +21,7 @@
 
 #include "raylib.h"
 #include "DataFile.h"
+#include <iostream>
 
 int main(int argc, char* argv[])
 {
@@ -51,26 +52,28 @@ int main(int argc, char* argv[])
         // TODO: Update your variables here
         //----------------------------------------------------------------------------------
 
-        if (IsKeyPressed(KEY_LEFT))
+        if (IsKeyPressed(KEY_LEFT)) // View Previous Record
         {
             currentRecordIdx--;
-            if (currentRecordIdx < 0)
+            if (currentRecordIdx < 0) // Ensure the user cannot view previous record if there isn't one
             {
                 currentRecordIdx = 0;
             }
             currentRecord = data.GetRecord(currentRecordIdx);
             recordTexture = LoadTextureFromImage(currentRecord->image);
+            std::cout << currentRecord->name << std::endl;
         }
 
-        if (IsKeyPressed(KEY_RIGHT))
+        if (IsKeyPressed(KEY_RIGHT)) // View Next Record
         {
             currentRecordIdx++;
-            if (currentRecordIdx >= data.GetRecordCount())
+            if (currentRecordIdx >= data.GetRecordCount()) // Ensure the user cannot view next record if there isn't one
             {
-                currentRecordIdx = data.GetRecordCount();
+                currentRecordIdx = data.GetRecordCount() - 1;
             }
             currentRecord = data.GetRecord(currentRecordIdx);
             recordTexture = LoadTextureFromImage(currentRecord->image);
+            std::cout << currentRecord->name << std::endl;
         }
 
 
