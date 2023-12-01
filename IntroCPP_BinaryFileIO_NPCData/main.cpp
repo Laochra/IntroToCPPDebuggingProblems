@@ -38,8 +38,9 @@ int main(int argc, char* argv[])
     data.Load("npc_data.dat");
 
     DataFile::Record* currentRecord = data.GetRecord(currentRecordIdx);
+    if (currentRecord != nullptr) exit;
     Texture2D recordTexture = LoadTextureFromImage(currentRecord->image);
-
+    UnloadImage(currentRecord->image);
 
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
@@ -59,8 +60,11 @@ int main(int argc, char* argv[])
             {
                 currentRecordIdx = 0;
             }
+            delete currentRecord;
+            UnloadTexture(recordTexture);
             currentRecord = data.GetRecord(currentRecordIdx);
             recordTexture = LoadTextureFromImage(currentRecord->image);
+            UnloadImage(currentRecord->image);
             std::cout << currentRecord->name << std::endl;
         }
 
@@ -71,8 +75,11 @@ int main(int argc, char* argv[])
             {
                 currentRecordIdx = data.GetRecordCount() - 1;
             }
+            delete currentRecord;
+            UnloadTexture(recordTexture);
             currentRecord = data.GetRecord(currentRecordIdx);
             recordTexture = LoadTextureFromImage(currentRecord->image);
+            UnloadImage(currentRecord->image);
             std::cout << currentRecord->name << std::endl;
         }
 
@@ -95,6 +102,8 @@ int main(int argc, char* argv[])
         //----------------------------------------------------------------------------------
     }
 
+    UnloadTexture(recordTexture);
+    
     // De-Initialization
     //--------------------------------------------------------------------------------------   
     CloseWindow();        // Close window and OpenGL context
